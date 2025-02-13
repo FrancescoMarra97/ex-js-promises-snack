@@ -70,3 +70,37 @@ function lanciaDado() {
 lanciaDado()
     .then(result => console.log("Il risultato del dado è:", result))
     .catch(err => console.error(err));
+
+
+function creaLanciaDado() {
+    let ultimoLancio = null;
+    return function () {
+        return new Promise((resolve, reject) => {
+            console.log("Sto lanciando il dado");
+            setTimeout(() => {
+                const numero = Math.floor(Math.random() * 6) + 1
+
+                if (Math.random() < 0.2) {
+                    reject("il dado si è incastrato")
+                } else {
+                    if (numero === ultimoLancio) {
+                        console.log("Incredibile, stesso numero di prima")
+                    }
+                    ultimoLancio = numero;
+                    resolve(numero)
+                }
+            }, 3000);
+        })
+    }
+
+}
+
+const lancia = creaLanciaDado()
+
+lancia()
+    .then(result => console.log("Il risultato del dado è:", result))
+    .catch(err => console.error(err));
+
+lancia()
+    .then(result => console.log("Il risultato del dado è:", result))
+    .catch(err => console.error(err));
