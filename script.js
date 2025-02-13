@@ -22,3 +22,24 @@ const getPostTitle = id => {
 getPostTitle(1)
     .then(title => console.log(title))
     .catch(err => console.error(err))
+
+const getPost = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://dummyjson.com/posts/${id}`)
+            .then(res => res.json())
+            .then(post => {
+                fetch(`https://dummyjson.com/users/${post.userId}`)
+                    .then(res => res.json())
+                    .then(user => {
+                        post.user = user;
+                        resolve(post)
+                    })
+                    .catch(reject)
+            })
+            .catch(reject)
+    })
+}
+
+getPost(1)
+    .then(post => console.log(post))
+    .catch(err => console.error(err))
